@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.14)
 
-project(libjapi VERSION 0.3)
+project(libjapi VERSION 0.4)
 set(SOVERSION 1)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -64,10 +64,24 @@ endif(DOXYGEN_FOUND)
 
 ################################
 # Create unit test excecutable #
-
-add_subdirectory(googletest/googletest
-                 EXCLUDE_FROM_ALL)
-
+find_package(GTest QUIET)
+if(${GTest_FOUND})
+	# Gtest on System Installed
+	message("GTest: Installed using GTest")
+	include(GoogleTest)
+else()
+  # Include GoogleTest in the project
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.8.1
+  )
+  FetchContent_MakeAvailable(googletest)
+  include(GoogleTest)
+endif()
+    
+# Define test executable
 add_executable(testsuite
   EXCLUDE_FROM_ALL
     test/japi_test.cc
@@ -80,6 +94,7 @@ target_link_libraries(testsuite
   japi
 )
 
+# Include directories
 target_include_directories(testsuite
   PUBLIC
     include/
