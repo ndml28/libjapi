@@ -38,7 +38,7 @@ A Makefile is generated. Run 'make' to build the libjapi libraries.
 
     $ make
 
-A shared and a static library is built. Tests are built by default. They can be disabled using the `LIBJAPI_ENABLE_TESTING` variable.
+A shared and a static library is built. Tests are built by default. They can be disabled using the command `cmake -DLIBJAPI_ENABLE_TESTING=FALSE ../` variable.
 
 To run the internal tests run
 
