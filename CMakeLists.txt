@@ -74,7 +74,7 @@ if(LIBJAPI_ENABLE_TESTING)
   FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.8.1)
+    GIT_TAG release-1.8.0)
   FetchContent_MakeAvailable(googletest)
   include(GoogleTest)
 
@@ -89,7 +89,6 @@ if(LIBJAPI_ENABLE_TESTING)
   target_include_directories(testsuite PUBLIC include/ src/
                                               ${JSONC_INCLUDE_DIRS})
 
-  # add_custom_target(run_test COMMAND testsuite DEPENDS testsuite)
   gtest_discover_tests(testsuite)
 ################################
   # Test code coverage #
@@ -97,7 +96,7 @@ if(LIBJAPI_ENABLE_TESTING)
   if(CMAKE_BUILD_TYPE MATCHES "Debug")
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
     include(${CMAKE_SOURCE_DIR}/cmake/CodeCoverage.cmake)
-    set(COVERAGE_EXCLUDES "doxydir" "/usr/include/*" "googletest/*" "test/*")
+    set(COVERAGE_EXCLUDES "doxydir" "/usr/include/*" "test/*")
     append_coverage_compiler_flags()
 
     setup_target_for_coverage_lcov(NAME coverage EXECUTABLE testsuite)
