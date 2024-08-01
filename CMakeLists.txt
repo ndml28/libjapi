@@ -90,15 +90,19 @@ if(LIBJAPI_ENABLE_TESTING)
                                               ${JSONC_INCLUDE_DIRS})
 
   gtest_discover_tests(testsuite)
-################################
-  # Test code coverage #
 
+################################
+# Test code coverage #
   if(CMAKE_BUILD_TYPE MATCHES "Debug")
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
     include(${CMAKE_SOURCE_DIR}/cmake/CodeCoverage.cmake)
-    set(COVERAGE_EXCLUDES "doxydir" "/usr/include/*" "test/*")
+    set(COVERAGE_EXCLUDES
+        "doxydir"
+        "/usr/include"
+        "_deps/googletest"
+        "test/*"
+    )
     append_coverage_compiler_flags()
-
     setup_target_for_coverage_lcov(NAME coverage EXECUTABLE testsuite)
   endif()
 endif(LIBJAPI_ENABLE_TESTING)
